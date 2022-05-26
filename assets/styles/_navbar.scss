@@ -1,3 +1,22 @@
+.showcase
+{
+  position: absolute;
+  right: 0;
+  width: 100%;
+  min-height: 100vh;
+  padding: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111;
+  transition: 0.5s;
+  z-index: 1;
+  &.active
+  {
+    right: 70vw;
+  }
+}
+
 header
 {
   position: absolute;
@@ -18,25 +37,6 @@ header .logo
   cursor: pointer;
 }
 
-.showcase
-{
-  position: absolute;
-  right: 0;
-  width: 100%;
-  min-height: 100vh;
-  padding: 120px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #111;
-  transition: 0.5s;
-  z-index: 1;
-}
-.showcase.active
-{
-  right: 300px;
-}
-
 .overlay
 {
   position: absolute;
@@ -55,29 +55,86 @@ header .logo
   position: absolute;
   right: 100px;
   width: 600px;
-  padding: 100px;
+  padding: 100px 0 0 0;
   min-height: 10vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 2;
-}
-.menu a
-{
-  position: relative;
-  padding: 0 20px;
-  text-decoration: none;
-  font-size: 24px;
-  color: #111;
-  transition: letter-spacing 1s, font-size 1s;
-}
-.menu a:hover
-{
-  letter-spacing: 2px;
-  font-size: 26px;
+  &__items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__item {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    &:hover > ul {
+      visibility: visible;
+      opacity: 0.9;
+      display: block;
+      min-width: 100%;
+      text-align: left;
+      padding-top: 20px;
+      box-shadow: 0px 3px 5px -1px #ccc;
+      z-index: 3;
+    }
+  }
+  &__link {
+    position: relative;
+    text-decoration: none;
+    font-size: 22px;
+    color: #111;
+  }
+  &__dropdown {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    padding-left: 0;
+    left: 0;
+    display: none;
+    background: white;
+    &--item {
+      list-style: none;
+      clear: both;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 20px;
+      border-style: none;
+    }
+    &--link {
+      font-size: 18px;
+      text-decoration: none;
+      color: #111;
+      padding: 0 20px;
+      &:hover {
+        font-size: 18px;
+        padding-left: 10px;
+        border-left: 2px solid #3ca0e7;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+  & li:hover {
+    cursor: pointer;
+  }
 }
 
-@media (max-width: 991px)
+ul li ul li a { transition: all 0.5s ease; }
+
+.show {
+  visibility: visible;
+  opacity: 0.9;
+  display: block;
+  min-width: 200px;
+  text-align: left;
+  padding-top: 20px;
+  box-shadow: 0px 3px 5px -1px #ccc;
+  z-index: 3;
+}
+
+@media (max-width: 1200px)
 {
   .showcase,
   .showcase header
@@ -87,7 +144,7 @@ header .logo
   }
   header .logo
   {
-    font-size: 16px;
+    font-size: 50px;
   }
   .toggle
   {
@@ -96,7 +153,7 @@ header .logo
     height: 60px;
     background: url(https://i.ibb.co/HrfVRcx/menu.png);
     background-repeat: no-repeat;
-    background-size: 25px;
+    background-size: 60px;
     background-position: center;
     cursor: pointer;
   }
@@ -104,7 +161,7 @@ header .logo
   {
     background: url(https://i.ibb.co/rt3HybH/close.png);
     background-repeat: no-repeat;
-    background-size: 25px;
+    background-size: 60px;
     background-position: center;
     cursor: pointer;
   }
@@ -116,10 +173,26 @@ header .logo
   {
     top: 0;
     right: 0;
-    width: 300px;
+    width: 70vw;
     height: 100%;
-    flex-direction: column;
     z-index: 1;
     background-color: #0085c2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    &__items {
+      flex-direction: column;
+      max-height: 100vh;
+    }
+    &__item {
+      padding: 50px 0;
+    }
+    &__link {
+      font-size: 60px;
+    }
+    &__dropdown--link {
+      font-size: 50px;
+    }
   }
 }

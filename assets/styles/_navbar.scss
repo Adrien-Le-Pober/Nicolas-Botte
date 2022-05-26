@@ -44,7 +44,7 @@ header .logo
   left: 0;
   width: 100%;
   height: 100%;
-  background: #03a9f4;
+  background: $primary;
   background-image: url("../img/banniere-accueil-fullhd.jpg");
   background-position: center;
   background-size: cover;
@@ -111,7 +111,7 @@ header .logo
       &:hover {
         font-size: 18px;
         padding-left: 10px;
-        border-left: 2px solid #3ca0e7;
+        border-left: 2px solid $primary;
         transition: all 0.3s ease;
       }
     }
@@ -176,7 +176,7 @@ ul li ul li a { transition: all 0.5s ease; }
     width: 70vw;
     height: 100%;
     z-index: 1;
-    background-color: #0085c2;
+    background-color: $primary;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -186,13 +186,14 @@ ul li ul li a { transition: all 0.5s ease; }
       max-height: 100vh;
     }
     &__item {
-      padding: 50px 0;
+      padding: 20px 0;
     }
     &__link {
-      font-size: 60px;
+      font-size: 40px;
+      color: white;
     }
     &__dropdown--link {
-      font-size: 50px;
+      font-size: 35px;
     }
   }
 }

@@ -16,4 +16,3 @@ function disableToggleOnResize() {
 }
 
 window.addEventListener('resize', disableToggleOnResize);
-

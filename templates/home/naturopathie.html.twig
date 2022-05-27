@@ -1,0 +1,69 @@
+{% extends 'base.html.twig'%}
+{% block title %}Naturopathie{% endblock %}
+{% block body %}
+<div class="min-vh-100"></div>
+<main id="naturopathie" class="bg-secondary p-5">
+  <h1 class="text-center my-3">La naturopathie</h1>
+  <p class="text-primary text-center py-4">
+    La Naturopathie est un ensemble de méthodes de soins  visant à renforcer les défenses de l'organisme par des moyens considérés comme naturels et biologiques (OMS).
+  </p>
+  <p>
+    L’objectif est de rétablir ou maintenir un état de santé optimal par des moyens naturels.
+  </p>
+  <p>
+    En identifiant la cause profonde du déséquilibre de l'organisme, elle permet un rééquilibrage global de l'hygiène de vie et ainsi un mieux être général.
+  </p>
+  <p class="pb-3">
+    La naturopathie consiste à renforcer les réactions de défense et d’adaptation de l’organisme par divers mesures d’hygiène (diététique, relaxation, mouvement, thermalisme) aidées par les seuls agents naturels (plantes, eaux, soleil, nature).
+  </p>
+  <h2 class="text-center my-3">Le Naturopathe</h2>
+  <p class="pt-3">
+    Le Naturopathe enseigne l’art de conserver, retrouver ou optimiser la santé, conscient que le bien être de chacun est indissociable de sa qualité de vie et aussi de son bien être dans la société et avec son environnement.
+  </p>
+  <p>
+    Le naturopathe va donc établir un bilan de vitalité où il prendra en compte les aspects physiques et psychologiques. Il prendra en compte l’aspect émotionnel, mental et spirituel de la personne. 
+    Ceci afin d’évaluer la Force vitale qui permettra à l’organisme de s’organiser, de se développer, s’adapter, se défendre et guérir spontanément.
+  </p>
+  <div class="d-flex justify-content-center my-3">
+    <span class="bg-primary p-3 border-rounded text-secondary shadow-lg">
+      <p class="text-center">Pourquoi Consulter ?</p>
+      <ul>
+        <li>Troubles digestifs chroniques</li>
+        <li>Troubles du transit</li>
+        <li>Problèmes cutanés : Eczéma, Psoriasis,</li>
+        <li>Stress chronique et burn out</li>
+        <li>Trouble du sommeil</li>
+        <li>Fatigue chronique</li>
+        <li>Allergies : cutanés, saisonnières ...</li>
+        <li>Problèmes immunitaires</li>
+        <li>Rééquilibrage alimentaire</li>
+        <li>Conception et fertilité</li>
+      </ul>
+    </span>
+  </div>
+  <div class="d-flex justify-content-center my-3">
+    <span class="bg-primary p-3 border-rounded text-secondary shadow-lg">
+      <p class="text-center">La Naturopathie Intervient :</p>
+      <ul>
+        <li>En amont des problèmes de santé et vise à éviter leurs manifestations, c’est la « prévention primaire »</li>
+        <li>Dès l’apparition de troubles aigus ou fonctionnels chroniques, générant des désordres récurrents mineurs mais polluant l’existence (les troubles liés à la sphère digestive, circulatoire, cutanée, et aussi des troubles liés au stress, au sommeil…)</li>
+        <li>Quand la maladie est installée en accompagnement d’un traitement allopathique pour aider à supporter les éventuels effets secondaires et apporter un meilleur confort au malade.</li>
+      </ul>
+    </span>
+  </div>
+  <p class="pt-3">
+    Le naturopathe n’est pas un médecin ni un praticien de santé.
+  </p>
+  <p>
+    Le naturopathe est un éducateur de santé qui accompagne dans la recherche du bien-être, dans le développement personnel mais ne peut en aucun cas se substituer aux professionnels de santé pour traiter les pathologies.<br>
+    Il peut travailler dans la prévention et dans un parcours de soins du client en lien avec les professionnels de la santé.
+  </p>
+  <p>
+    Il ne fait aucun diagnostic mais un bilan de vitalité pour déterminer votre morphologie et évaluer vos forces et faiblesses afin d'élaborer un programme d'hygiène de vie conforme avec votre physiologie et votre environnement.
+  </p>
+</main>
+<picture>
+	<source media="(max-width: 992px)" srcset="{{ asset('build/img/Naturopathie-hd.jpg') }}">
+	<img srcset="{{ asset('build/img/Naturopathie-fullhd.jpg') }}, {{ asset('build/img/Naturopathie-hd.jpg') }}" style="width:100%;">
+</picture>
+{% endblock %}

@@ -25,4 +25,10 @@ class HomeController extends AbstractController
     {
         return $this->render('home/hypnose.html.twig');
     }
+
+    #[Route('/qui-suis-je', name: 'app_qui-suis-je')]
+    public function quiSuisJe(): Response
+    {
+        return $this->render('home/qui-suis-je.html.twig');
+    }
 }

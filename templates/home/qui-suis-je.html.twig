@@ -1,0 +1,37 @@
+{% extends 'base.html.twig'%}
+{% block title %}Qui suis-je?{% endblock %}
+{% block body %}
+<div class="min-vh-100"></div>
+<main id="qui-suis-je" class="bg-secondary p-5">
+  <h1 class="text-center my-3 py-3">Qui suis-je?</h1>
+  <p>
+    Passionné par la nature, j’ai orienté mes études vers
+    l’horticulture avec un grand intérêt pour les plantes et leur
+    utilisation.<br>
+    A la même période, je fais des études de musique et afin
+    de donner la possibilité à chaque personne de pratiquer la
+    musique, j’ouvre une école d’apprentissage d’instruments avec
+    une méthode accessible à tous et en particulier aux personnes
+    souffrant de différences.<br>
+    En côtoyant toutes ces personnes, l’idée de mettre ma
+    bienveillance et mon écoute au service de tous vient
+    naturellement et mon désir est de proposer mes services de
+    naturopathe et d’accompagnant hypnotique aux personnes qui
+    souhaitent être accompagnés dans leur recherche de
+    « bien-être», grâce à la Naturopathie avec si besoin un
+    accompagnement en Hypnose.
+  </p>
+  <p>
+    Mon objectif est de vous accompagner dans votre démarche
+    personnelle. Entre les consultations, je reste disponible pour
+    vous aider et vous conseiller.
+  </p>
+  <div class="d-flex justify-content-center py-3">
+    <img 
+      src="{{ asset('build/img/qui-suis-je.jpg') }}"
+      alt="photo de Nicolas"
+      class="col-10 col-lg-4"
+    >
+  </div>
+</main>
+{% endblock %}

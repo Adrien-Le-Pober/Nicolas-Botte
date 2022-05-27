@@ -19,4 +19,10 @@ class HomeController extends AbstractController
     {
         return $this->render('home/naturopathie.html.twig');
     }
+
+    #[Route('/hypnose', name: 'app_hypnose')]
+    public function hypnose(): Response
+    {
+        return $this->render('home/hypnose.html.twig');
+    }
 }

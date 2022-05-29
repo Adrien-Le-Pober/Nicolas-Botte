@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un tarif{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    <main class="container d-flex flex-column align-items-center">
+        <h1 class="text-center my-3">Ajouter un nouveau tarif</h1>
+
+        {{ include('tarif/_form.html.twig') }}
+
+        <a class="btn btn-outline-primary col-6 my-3 border-rounded" href="{{ path('app_tarif_index', {'_fragment': 'tarifs'}) }}">Retour vers les tarifs</a>
+    </main>
+{% endblock %}

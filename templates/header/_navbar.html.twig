@@ -24,7 +24,7 @@
         <li class="menu__dropdown--item"><a class="menu__dropdown--link" href="#">Contact</a></li>
       </ul>
     </li>
-    <li class="menu__item"><a class="menu__link" href="#">Blog</a></li>
+    <li class="menu__item"><a class="menu__link" href="{{ path('app_article_index', {'_fragment': 'blog'}) }}">Blog</a></li>
     <li class="menu__item"><a class="menu__link" href="#">Compte&dtrif;</a>
       <ul class="menu__dropdown">
         <li class="menu__dropdown--item"><a class="menu__dropdown--link" href="{{ path("login", {'_fragment': 'login'}) }}">Connexion</a></li>

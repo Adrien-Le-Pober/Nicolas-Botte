@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    <main class="d-flex flex-column align-items-center" id="article-show">
+        <section>
+            {{ article.content|raw }}
+        </section>
+        <a class="btn btn-primary my-3" href="{{ path('app_article_index', {'_fragment':'blog'}) }}">Retour vers le blog</a>
+    </main>
+{% endblock %}

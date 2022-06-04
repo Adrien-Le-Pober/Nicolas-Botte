@@ -1,0 +1,19 @@
+<fieldset class="border border-primary border-rounded my-5 shadow col-11">
+{{ form_start(form, {
+        'attr': {class:"d-flex flex-column my-3 p-3"}
+    }) }}
+        {{ form_row(form.title, {
+            label: "Titre",
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
+        {{ form_row(form.filePath, {
+            label: 'Image de couverture',
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
+        {{ form_row(form.content, {
+            label: 'Contenu',
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
+    <button type="submit" class="btn btn-primary rounded-pill">{{ button_label|default('Valider') }}</button>
+{{ form_end(form) }}
+</fieldset>

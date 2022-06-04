@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création d'un article{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    <main class="d-flex flex-column align-items-center" id="new-article">
+        <h1 class="text-center my-3">Ajout d'un nouvel article</h1>
+
+        {{ include('article/_form.html.twig') }}
+
+        <a class="btn btn-outline-primary col-6 my-3 border-rounded" href="{{ path('app_article_index', {'_fragment': 'blog'}) }}">Retour vers le blog</a>
+    </main>
+{% endblock %}

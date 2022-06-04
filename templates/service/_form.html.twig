@@ -1,0 +1,11 @@
+<fieldset class="border border-primary border-rounded my-5 shadow col-11 col-md-8 col-lg-6 col-xxl-4">
+{{ form_start(form, {
+        'attr': {class:"d-flex flex-column my-3 p-3"}
+    }) }}
+        {{ form_row(form.name, {
+            label: "Nom du service",
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
+    <button type="submit" class="btn btn-primary rounded-pill">{{ button_label|default('Valider') }}</button>
+{{ form_end(form) }}
+</fieldset>

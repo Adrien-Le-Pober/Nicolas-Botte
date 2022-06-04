@@ -13,7 +13,17 @@
             <h1 class="text-center">Les tarifs</h1>
             <div class="row d-flex flex-column flex-md-row align-items-center justify-content-md-around col-12">
                 {% for service in services %}
-                <div class="card border-primary border-rounded p-4 p-md-5 col-11 col-md-8 col-lg-5 col-xl-4 my-3 shadow">
+                <div class="card border-primary border-rounded p-4 p-md-5 col-11 col-md-8 col-lg-5 my-3 shadow">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <div>
+                        <a href="{{ path('app_service_edit', {'id': service.id, '_fragment': 'service-edit'}) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                            </svg>
+                        </a>
+                        {{ include('service/_delete_form.html.twig') }}
+                        </div>
+                    {% endif %}
                     <h2>{{ service.name }}</h2>
                     <hr>
                     <div class="card-body">
@@ -38,7 +48,8 @@
                 {% endfor %}
             </div>
             {% if is_granted("ROLE_ADMIN") %}
-            <a href="{{ path('app_tarif_new') }}" class="btn btn-primary rounded-pill shadow my-3 col-6">Ajouter un tarif</a>
+            <a href="{{ path('app_tarif_new', {'_fragment': 'new-tarif'}) }}" class="btn btn-primary rounded-pill shadow my-2 col-6">Ajouter un tarif</a>
+            <a href="{{ path('app_service_new', {'_fragment': 'new-service'}) }}" class="btn btn-primary rounded-pill shadow my-3 col-6">Ajouter un service</a>
             {% endif %}
         </section>
     </main>

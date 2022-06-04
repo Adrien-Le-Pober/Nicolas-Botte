@@ -36,7 +36,7 @@ class TarifController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $tarifRepository->add($tarif, true);
 
-            return $this->redirectToRoute('app_tarif_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_tarif_index', ['_fragment' => 'tarifs'], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('tarif/new.html.twig', [
@@ -54,7 +54,7 @@ class TarifController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $tarifRepository->add($tarif, true);
 
-            return $this->redirectToRoute('app_tarif_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_tarif_index', ['_fragment' => 'tarifs'], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('tarif/edit.html.twig', [
@@ -70,6 +70,6 @@ class TarifController extends AbstractController
             $tarifRepository->remove($tarif, true);
         }
 
-        return $this->redirectToRoute('app_tarif_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_tarif_index', ['_fragment' => 'tarifs'], Response::HTTP_SEE_OTHER);
     }
 }

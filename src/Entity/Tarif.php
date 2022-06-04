@@ -20,7 +20,7 @@ class Tarif
     private $price;
 
     #[ORM\ManyToOne(targetEntity: Service::class, inversedBy: 'tarifs')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, name: "service_id", referencedColumnName: "id", onDelete: "CASCADE")]
     private $service;
 
     public function getId(): ?int

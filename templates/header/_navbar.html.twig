@@ -28,9 +28,9 @@
     <li class="menu__item"><a class="menu__link" href="#">Compte&dtrif;</a>
       <ul class="menu__dropdown">
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-{#         {% if is_granted('ROLE_ADMIN') %}
-        <li class="menu__dropdown--item"><a class="menu__dropdown--link" href="{{ path("app_user_index") }}">Utilisateurs</a></li>
-        {% endif %} #}
+        {% if is_granted('ROLE_ADMIN') %}
+        <li class="menu__dropdown--item"><a class="menu__dropdown--link" href="{{ path("app_user_admin_index", {'_fragment': 'user-index'}) }}">Utilisateurs</a></li>
+        {% endif %}
         <li class="menu__dropdown--item"><a class="menu__dropdown--link" href="{{ path("app_user_edit", {'id': app.user.id, '_fragment': 'user-edit'}) }}">Modifier</a></li>
         <hr>
         <li class="menu__dropdown--item"><a class="menu__dropdown--link" href="{{ path("app_logout") }}">Déconnexion</a></li>

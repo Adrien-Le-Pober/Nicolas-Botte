@@ -1,17 +1,21 @@
-<fieldset class="border border-primary border-rounded bg-secondary my-5 shadow col-11 col-md-8 col-lg-6 col-xxl-4">
+<fieldset class="border border-primary border-rounded bg-secondary mb-5 shadow col-11 col-md-8 col-lg-6 col-xxl-4">
 {{ form_start(form, {
         'attr': {class:"d-flex flex-column my-3 p-3"}
     }) }}
-        {{ form_row(form.title, {
-            label: "Titre",
+        {{ form_row(form.email, {
+            label: "Email",
             'attr': {class:"d-flex flex-column rounded-pill"}
         }) }}
-        {{ form_row(form.price, {
-            label: 'Prix',
+        {{ form_row(form.lastname, {
+            label: 'Nom',
             'attr': {class:"d-flex flex-column rounded-pill"}
         }) }}
-        {{ form_row(form.service, {
-            label: "Service",
+        {{ form_row(form.firstname, {
+            label: "Prénom",
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
+        {{ form_row(form.phone, {
+            label: "Téléphone",
             'attr': {class:"d-flex flex-column rounded-pill"}
         }) }}
     <button type="submit" class="btn btn-primary rounded-pill">{{ button_label|default('Valider') }}</button>

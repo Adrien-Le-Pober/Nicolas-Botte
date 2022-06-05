@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes informations{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    <main class="container d-flex flex-column align-items-center" id="user-edit">
+        {% for category, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <h1 class="text-center my-3">Modifier mes informations</h1>
+        {{ include('user/_password_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        {{ include('user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+        {{ include('user/_delete_form.html.twig') }}
+    </main>
+{% endblock %}

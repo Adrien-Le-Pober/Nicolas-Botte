@@ -8,3 +8,13 @@ vich_uploader:
             uri_prefix: /images/articles
             upload_destination: '%kernel.project_dir%/public/images/articles'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        ateliers:
+            uri_prefix: /images/ateliers
+            upload_destination: '%kernel.project_dir%/public/images/ateliers'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true

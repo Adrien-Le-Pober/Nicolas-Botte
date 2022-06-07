@@ -21,9 +21,13 @@ class Service
     #[ORM\OneToMany(mappedBy: 'service', targetEntity: Tarif::class)]
     private $tarifs;
 
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: Atelier::class)]
+    private $ateliers;
+
     public function __construct()
     {
         $this->tarifs = new ArrayCollection();
+        $this->ateliers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +71,36 @@ class Service
             // set the owning side to null (unless already changed)
             if ($tarif->getService() === $this) {
                 $tarif->setService(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Atelier>
+     */
+    public function getAteliers(): Collection
+    {
+        return $this->ateliers;
+    }
+
+    public function addAtelier(Atelier $atelier): self
+    {
+        if (!$this->ateliers->contains($atelier)) {
+            $this->ateliers[] = $atelier;
+            $atelier->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAtelier(Atelier $atelier): self
+    {
+        if ($this->ateliers->removeElement($atelier)) {
+            // set the owning side to null (unless already changed)
+            if ($atelier->getService() === $this) {
+                $atelier->setService(null);
             }
         }
 

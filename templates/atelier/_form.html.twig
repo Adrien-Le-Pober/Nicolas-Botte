@@ -1,0 +1,35 @@
+<fieldset class="border border-primary border-rounded bg-secondary my-5 shadow col-11 col-md-8 col-lg-6 col-xxl-4">
+{{ form_start(form, {
+        'attr': {class:"d-flex flex-column my-3 p-3"}
+    }) }}
+        {{ form_row(form.title, {
+            label: "Titre",
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
+        {{ form_row(form.filePath, {
+            label: "Image de couverture",
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
+        {{ form_row(form.date, {
+            label: "Date",
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
+        {{ form_row(form.shortDescription, {
+            label: "Description courte",
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
+        {{ form_row(form.longDescription, {
+            label: "Description longue",
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
+        {{ form_row(form.price, {
+            label: 'Prix',
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
+        {{ form_row(form.service, {
+            label: "Service",
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
+    <button type="submit" class="btn btn-primary rounded-pill">{{ button_label|default('Valider') }}</button>
+{{ form_end(form) }}
+</fieldset>

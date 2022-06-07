@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les Ateliers{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    <main class="container" id="ateliers">
+        <section class="d-flex flex-column align-items-center my-3">
+        {% for category, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+            <h1 class="text-center">Les ateliers</h1>
+            <div class="row d-flex flex-column flex-md-row align-items-center justify-content-md-around col-12">
+                {% for atelier in ateliers %}
+                <div class="card border-primary border-rounded bg-secondary p-4 p-md-5 col-11 col-md-8 col-lg-5 my-3 shadow">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <div>
+                        <a href="{{ path('app_atelier_edit', {'id': atelier.id, '_fragment': 'atelier-edit'}) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                            </svg>
+                        </a>
+                        {{ include('atelier/_delete_form.html.twig') }}
+                        </div>
+                    {% endif %}
+                    <a href={{ path('app_atelier_show', {'id': atelier.id, '_fragment': 'atelier-show'}) }}>
+                        <img  class="w-100 border-rounded" src="{{ vich_uploader_asset(atelier) }}" alt="{{ atelier.title }}">
+                    </a>
+                    <div class="card-body">
+                        <a href="{{ path('app_atelier_show', {'id': atelier.id, '_fragment': 'atelier-show'}) }}" class="link-dark"><h2>{{ atelier.title }}</h2></a>
+                        <p>{{ atelier.date ? atelier.date|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm") : '' }}</p>
+                        <p>{{ atelier.shortDescription }}</p>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-center my-3">Aucun atelier n'est prévu pour le moment, revenez plus tard.</p>
+                {% endfor %}
+            </div>
+            {% if is_granted("ROLE_ADMIN") %}
+            <a href="{{ path('app_atelier_new', {'_fragment': 'new-atelier'}) }}" class="btn btn-primary rounded-pill shadow my-2 col-6">Ajouter un atelier</a>
+            {% endif %}
+        </section>
+    </main>
+{% endblock %}

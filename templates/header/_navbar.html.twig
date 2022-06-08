@@ -7,7 +7,7 @@
 </section>
 <div class="menu">
   <ul class="menu__items">
-    <li class="menu__item"><a class="menu__link" href="#">Accueil</a></li>
+    <li class="menu__item"><a class="menu__link" href="{{ path("app_home", {'_fragment': 'home'}) }}">Accueil</a></li>
     <li class="menu__item"><a class="menu__link" href="#">Présentation&dtrif;</a>
       <ul class="menu__dropdown">
         <li class="menu__dropdown--item"><a class="menu__dropdown--link" href="{{ path("app_qui-suis-je", {'_fragment': 'qui-suis-je'}) }}">Qui suis-je?</a></li>

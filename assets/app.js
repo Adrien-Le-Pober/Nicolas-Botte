@@ -9,7 +9,7 @@
 import './styles/app.scss';
 
 import './js/navbar.js';
-import './js/partnairs.js';
+import './js/reveal.js';
 
 // start the Stimulus application
 import './bootstrap';

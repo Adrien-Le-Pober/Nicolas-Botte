@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\ArticleRepository;
+use App\Repository\AtelierRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,9 +11,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(
+        AtelierRepository $atelierRepository,
+        ArticleRepository $articleRepository
+    ): Response
     {
-        return $this->render('home/index.html.twig');
+        return $this->render('home/index.html.twig', [
+            'lastAteliers' => $atelierRepository->findBy([], ['date' => 'DESC'], 3),
+            'lastArticles' => $articleRepository->findBy([], ['createdAt' => 'DESC'], 3),
+        ]);
     }
 
     #[Route('/naturopathie', name: 'app_naturopathie')]

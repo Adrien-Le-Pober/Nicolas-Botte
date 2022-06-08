@@ -77,6 +77,6 @@ class AtelierController extends AbstractController
             $atelierRepository->remove($atelier, true);
         }
 
-        return $this->redirectToRoute('app_atelier_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_atelier_index', ['_fragment' => 'ateliers'], Response::HTTP_SEE_OTHER);
     }
 }

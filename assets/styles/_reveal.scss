@@ -8,5 +8,5 @@
 .reveal-visible {
 	opacity: 1;
 	transform: translateX(0);
-	transition: .3s cubic-bezier(.5, 0, 0, 1);
+	transition: .3s cubic-bezier(.25,.75,.5,1.25);
 }

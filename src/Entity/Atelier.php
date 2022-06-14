@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AtelierRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -47,6 +49,14 @@ class Atelier
     #[Vich\UploadableField(mapping: "ateliers", fileNameProperty : "image")]
     #[Assert\File(maxSize : "1M",mimeTypes : ["image/jpeg", "image/png", "image/webp"])]
     private $filePath;
+
+    #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'ateliers')]
+    private $orders;
+
+    public function __construct()
+    {
+        $this->orders = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -173,5 +183,32 @@ class Atelier
     public function getFilePath(): ?File
     {
         return $this->filePath;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->addAtelier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            $order->removeAtelier($this);
+        }
+
+        return $this;
     }
 }

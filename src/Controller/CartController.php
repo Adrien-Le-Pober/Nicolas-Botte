@@ -111,7 +111,7 @@ class CartController extends AbstractController
             'line_items' => $lineItems,
             'mode' => 'payment',
             'success_url' => $this->generateUrl('cart_success', ['_fragment' => 'payment_success'], UrlGeneratorInterface::ABSOLUTE_URL),
-            'cancel_url' => $this->generateUrl('cart_canceled', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'cancel_url' => $this->generateUrl('cart_canceled', ['_fragment' => 'payment_canceled'], UrlGeneratorInterface::ABSOLUTE_URL),
         ]);
 
         return new JsonResponse(['id' => $checkout_session->id]);
@@ -126,6 +126,6 @@ class CartController extends AbstractController
     #[Route("/commande/annulation", name:"_canceled")]
     public function cartCancel()
     {
-        return new Response('oh noooooooo');
+        return $this->render("cart/payment_canceled.html.twig");
     }
 }

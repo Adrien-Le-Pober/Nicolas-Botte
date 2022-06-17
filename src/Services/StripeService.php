@@ -17,6 +17,6 @@ class StripeService
 
     public function getPrivateKey()
     {
-      return $this->privateKey;
+        return $this->privateKey;
     }
 }

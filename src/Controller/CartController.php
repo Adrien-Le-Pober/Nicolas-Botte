@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Atelier;
 use App\Services\StripeService;
 use App\Repository\AtelierRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -103,7 +104,8 @@ class CartController extends AbstractController
             ];
 
             $lineItems[] = $line;
-        $total += $atelier->getPrice() * $quantity;
+            $total += $atelier->getPrice() * $quantity;
+            $ateliers[] = $atelier;
         }
 
         $checkout_session = \Stripe\Checkout\Session::create([
@@ -118,8 +120,33 @@ class CartController extends AbstractController
     }
 
     #[Route("/commande/validation", name:"_success")]
-    public function cartSuccess()
+    public function cartSuccess(
+        Request $request,
+        StripeService $stripeService,
+        AtelierRepository $atelierRepository,
+        EntityManagerInterface $entityManagerInterface
+    )
     {
+        $cart = $request->getSession()->get("cart", []);
+
+        if (!empty($cart)) {
+            $ateliers = [];
+            $total = 0;
+    
+            foreach($cart as $id => $quantity) {
+                $atelier = $atelierRepository->find($id);
+                $total += $atelier->getPrice() * $quantity;
+                $ateliers[] = $atelier;
+            }
+    
+            $order = $stripeService->createOrder($ateliers, $total, $this->getUser());
+            $order->setStatus("success");
+            $entityManagerInterface->persist($order);
+            $entityManagerInterface->flush();
+            
+            $request->getSession()->remove("cart");
+        }
+
         return $this->render("cart/payment_success.html.twig");
     }
 

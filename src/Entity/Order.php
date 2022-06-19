@@ -22,7 +22,7 @@ class Order
     #[ORM\ManyToMany(targetEntity: Atelier::class, inversedBy: 'orders')]
     private $ateliers;
 
-    #[ORM\Column(type: 'string', length: 30)]
+    #[ORM\Column(type: 'string', length: 30, nullable: true)]
     private $status;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -88,7 +88,7 @@ class Order
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(?string $status): self
     {
         $this->status = $status;
 

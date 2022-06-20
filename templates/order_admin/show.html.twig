@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande n°{{ order.reference }}{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    <main class="container my-3" id="order-admin-show">
+        <section class="d-flex flex-column align-items-center">
+            <h2>Commande n°{{ order.reference }}</h2>
+            <div class="card col-11 col-md-6 my-3 shadow">
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text">
+                        Le {{ order.createdAt|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm") }}<br>
+                        Prix total : {{ order.price|format_currency('EUR') }}
+                    </p>
+                    <p class="fw-bold">Articles commandés :</p>
+                    <ul>
+                        {% for atelier in order.ateliers %}
+                        <li>
+                        {{ atelier.title }} - {{ atelier.price|format_currency('EUR') }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <a href="#">Voir la facture</a>
+                </div>
+            </div>
+            <a class="btn btn-outline-primary rounded-pill my-3" href="{{ path("app_order_admin_index", {'_fragment': 'admin-orders'}) }}">Retour vers les commandes</a>
+        </section>
+    </main>
+{% endblock %}

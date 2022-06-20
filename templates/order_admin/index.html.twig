@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des commandes{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    <main class="container my-3" id="admin-orders">
+        <h1 class="text-center">Liste des commandes</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Référence</th>
+                    <th>Date</th>
+                    <th>Utilisateur</th>
+                    <th>Prix</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td class="{{ order.status is same as 'success' ? 'text-success' : 'text-danger'}}">{{ order.status}}</td>
+                    <td>{{ order.reference }}</td>
+                    <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ order.user.email }}</td>
+                    <td>{{ order.price|format_currency('EUR') }}</td>
+                    <td>
+                        <a class="btn btn-outline-primary rounded-pill" href="{{ path('app_order_admin_show', {'id': order.id, '_fragment': 'order-admin-show'}) }}">détails</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Aucune commande.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </main>
+{% endblock %}

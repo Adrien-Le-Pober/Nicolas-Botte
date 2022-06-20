@@ -30,6 +30,8 @@
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         {% if is_granted('ROLE_ADMIN') %}
         <li class="menu__dropdown--item"><a class="menu__dropdown--link" href="{{ path("app_user_admin_index", {'_fragment': 'user-index'}) }}">Utilisateurs</a></li>
+        <li class="menu__dropdown--item"><a class="menu__dropdown--link" href="{{ path("app_order_admin_index", {'_fragment': 'admin-orders'}) }}">Commandes</a></li>
+        <hr>
         {% endif %}
         <li class="menu__dropdown--item"><a class="menu__dropdown--link" href="{{ path("app_user_edit", {'id': app.user.id, '_fragment': 'user-edit'}) }}">Modifier</a></li>
         <li class="menu__dropdown--item"><a class="menu__dropdown--link" href="{{ path("app_order_index", {'_fragment': 'orders'}) }}">Commandes</a></li>

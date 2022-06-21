@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Choisir un moyen de paiement{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    <main class="container my-3" id="payment-validation">
+      <section class="d-flex flex-column align-items-center">
+          {% if app.session.get("cart") %}
+            <h4>Récapitulatif de la commande</h4>
+            <div class="card col-11 col-md-6 my-3 shadow">
+              <div class="card-body d-flex flex-column">
+            {% for atelier in lineItems %}
+              <div class="my-2">
+                <h5 class="card-title my-0">
+                {{ atelier['price_data']['product_data']['name'] }} - 
+                <span class="fw-normal">{{ atelier['price_data']['unit_amount']|format_currency('EUR') }}</span>
+                </h5>
+                <p class="card-text">Le {{ atelier['atelier_date']|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm") }}</p>
+              </div>
+            {% endfor %}
+              </div>
+            </div>
+            <p class="mt-3 mb-5">Total à payer: {{ total|format_currency('EUR') }}</p>
+            <h4>Choisissez un moyen de paiement</h4>
+            <div>
+                <button id="checkout-button" class="btn btn-primary shadow my-3">Payer par carte</button>
+            </div>
+          {% endif %}
+      </section>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+      window.onload = function() {
+        {% if app.environment == 'dev' %}
+          let stripeToken = "{{ stripe_public_key_test }}";
+        {% else %}
+          let stripeToken = "{{ stripe_public_key_live }}";
+        {% endif %}
+        // Create an instance of the Stripe object with your publishable API key
+        let stripe = Stripe(stripeToken);
+        let checkoutButton = document.getElementById("checkout-button");
+        checkoutButton.addEventListener("click", function () {
+            fetch("{{ path('cart_stripe_create_session') }}")
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (session) {
+                    console.log("hello");
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                })
+                .then(function (result) {
+                    // If redirectToCheckout fails due to a browser or network
+                    // error, you should display the localized error message to your
+                    // customer using error.message.
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.error("Error:", error);
+                });
+        });
+      }
+    </script>
+{% endblock %}

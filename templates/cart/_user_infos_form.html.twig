@@ -2,10 +2,9 @@
 {{ form_start(form, {
         'attr': {class:"d-flex flex-column my-3 p-3"}
     }) }}
-        {{ form_row(form.email, {
-            label: "Email",
-            'attr': {class:"d-flex flex-column rounded-pill"}
-        }) }}
+        <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+        </div>
         {{ form_row(form.lastname, {
             label: 'Nom',
             'attr': {class:"d-flex flex-column rounded-pill"}
@@ -18,6 +17,6 @@
             label: "Téléphone",
             'attr': {class:"d-flex flex-column rounded-pill"}
         }) }}
-    <button id="checkout-button" type="submit" class="btn btn-primary rounded-pill">{{ button_label|default('Valider') }}</button>
+    <button type="submit" class="btn btn-primary rounded-pill">{{ button_label|default('Valider') }}</button>
 {{ form_end(form) }}
 </fieldset>

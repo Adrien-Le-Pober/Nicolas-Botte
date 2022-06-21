@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes informations{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    <main class="container d-flex flex-column align-items-center" id="user-infos">
+        <h1 class="text-center my-3">Validez vos informations</h1>
+        {{ include('cart/_user_infos_form.html.twig', {'button_label': 'Passer au paiement'}) }}
+    </main>
+{% endblock %}

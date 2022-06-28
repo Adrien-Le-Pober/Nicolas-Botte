@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('icons/favicon.ico') }}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <title>Nouveau message de {{data.lastname}} {{data.firstname}}</title>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+      .container {
+        margin: 50px auto 0 auto;
+        width: 50vw;
+      }
+      @media screen and (max-width:700px) {
+        .container {
+          width: 90vw;
+        }
+      }
+    </style>
+</head>
+<body class="container">
+  <h3>Nouveau message de {{data.lastname}} {{data.firstname}}<h3>
+  {% if data.phone %}<p>Tel: {{ data.phone }}</p>{% endif %}
+  {% if data.email %}<p>Email: {{ data.email }}</p>{% endif %}
+  <p>Message: {{ data.message }}</p>
+</body>
+</html>

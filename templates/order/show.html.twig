@@ -21,7 +21,7 @@
                         </li>
                         {% endfor %}
                     </ul>
-                    <a href="#">Voir la facture</a>
+                    <a href="{{ path('app_bill', {id:order.id}) }}">Voir la facture</a>
                 </div>
             </div>
             <a class="btn btn-outline-primary rounded-pill my-3" href="{{ path("app_order_index", {'_fragment': 'orders'}) }}">Retour vers mes commandes</a>

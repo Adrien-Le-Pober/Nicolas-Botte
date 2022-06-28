@@ -24,7 +24,8 @@
             <p class="mt-3 mb-5">Total à payer: {{ total|format_currency('EUR') }}</p>
             <h4>Choisissez un moyen de paiement</h4>
             <div>
-                <button id="checkout-button" class="btn btn-primary shadow my-3">Payer par carte</button>
+                <button id="checkout-button" class="btn btn-primary shadow my-3 rounded-pill w-100">Payer par carte</button>
+                <div id="paypal-button-container"></div>
             </div>
           {% endif %}
       </section>
@@ -32,38 +33,68 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="https://js.stripe.com/v3/"></script>
-    <script type="text/javascript">
-      window.onload = function() {
-        {% if app.environment == 'dev' %}
-          let stripeToken = "{{ stripe_public_key_test }}";
-        {% else %}
-          let stripeToken = "{{ stripe_public_key_live }}";
-        {% endif %}
-        // Create an instance of the Stripe object with your publishable API key
-        let stripe = Stripe(stripeToken);
-        let checkoutButton = document.getElementById("checkout-button");
-        checkoutButton.addEventListener("click", function () {
-            fetch("{{ path('cart_stripe_create_session') }}")
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (session) {
-                    console.log("hello");
-                    return stripe.redirectToCheckout({ sessionId: session.id });
-                })
-                .then(function (result) {
-                    // If redirectToCheckout fails due to a browser or network
-                    // error, you should display the localized error message to your
-                    // customer using error.message.
-                    if (result.error) {
-                        alert(result.error.message);
-                    }
-                })
-                .catch(function (error) {
-                    console.error("Error:", error);
-                });
-        });
+  {#Stripe scripts#}
+  <script src="https://js.stripe.com/v3/"></script>
+  <script type="text/javascript">
+    window.onload = function() {
+      {% if app.environment == 'dev' %}
+        let stripeToken = "{{ stripe_public_key_test }}";
+      {% else %}
+        let stripeToken = "{{ stripe_public_key_live }}";
+      {% endif %}
+      // Create an instance of the Stripe object with your publishable API key
+      let stripe = Stripe(stripeToken);
+      let checkoutButton = document.getElementById("checkout-button");
+      checkoutButton.addEventListener("click", function () {
+          fetch("{{ path('cart_stripe_create_session') }}")
+              .then(function (response) {
+                  return response.json();
+              })
+              .then(function (session) {
+                  return stripe.redirectToCheckout({ sessionId: session.id });
+              })
+              .then(function (result) {
+                  // If redirectToCheckout fails due to a browser or network
+                  // error, you should display the localized error message to your
+                  // customer using error.message.
+                  if (result.error) {
+                      alert(result.error.message);
+                  }
+              })
+              .catch(function (error) {
+                  console.error("Error:", error);
+              });
+      });
+    }
+  </script>
+  {#Paypal scripts#}
+  <script src="https://www.paypal.com/sdk/js?client-id={{paypalClientId}}&currency=EUR&intent=authorize"></script>
+  <script>
+    paypal.Buttons({
+      style: {
+        layout: 'vertical',
+        color:  'blue',
+        shape:  'pill',
+        label:  'paypal'
+      },
+      // Sets up the transaction when a payment button is clicked
+      createOrder: (data, actions) => {
+        return actions.order.create({{ paypalOrder|raw }});
+      },
+      // Finalize the transaction after payer approval
+      onApprove: async (data, actions) => {
+        const authorization = await actions.order.authorize()
+        const authorizationId = authorization.purchase_units[0].payments.authorizations[0].id
+        const total = {{ total }}
+        await fetch('{{ path("cart_handle_paypal_payment") }}', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify({authorizationId : authorizationId, total : total})
+        })
+        window.location.replace('{{ path('cart_success', {'_fragment': 'payment_success'}) }}')
       }
-    </script>
+    }).render('#paypal-button-container');
+  </script>
 {% endblock %}

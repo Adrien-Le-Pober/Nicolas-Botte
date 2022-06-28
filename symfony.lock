@@ -120,6 +120,12 @@
     "nikic/php-parser": {
         "version": "v4.13.2"
     },
+    "paypal/paypal-checkout-sdk": {
+        "version": "1.0.2"
+    },
+    "paypal/paypalhttp": {
+        "version": "1.0.1"
+    },
     "phenx/php-font-lib": {
         "version": "0.5.4"
     },

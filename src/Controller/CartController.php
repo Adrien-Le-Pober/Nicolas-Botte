@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Atelier;
 use App\Form\UserInfosType;
+use App\Services\PaypalService;
 use App\Services\StripeService;
 use App\Repository\UserRepository;
 use App\Repository\AtelierRepository;
@@ -15,6 +16,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use PayPalCheckoutSdk\Payments\AuthorizationsCaptureRequest;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -121,9 +123,9 @@ class CartController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $cart = $request->getSession()->get("cart", []);
 
+        //Creating payment items for Stripe
         $lineItems = [];
         $total = 0;
-
         foreach($cart as $id => $quantity) {
             $atelier = $atelierRepository->find($id);
             $line = [
@@ -138,13 +140,47 @@ class CartController extends AbstractController
                 'atelier_id' => $atelier->getId(),
                 'atelier_date' => $atelier->getDate()
             ];
-
             $lineItems[] = $line;
             $total += $atelier->getPrice() * $quantity;
         }
 
+        //Creating payment items for Paypal
+        $paypalClientId = $_ENV['PAYPAL_PUBLIC_KEY'];
+        $paypalItems = [];
+        foreach($cart as $id => $quantity) {
+        $atelier = $atelierRepository->find($id);
+            $line = [
+                'name' => $atelier->getTitle(),
+                'quantity' => $quantity,
+                'unit_amount' => [
+                    'value' => number_format($atelier->getPrice(), 2, '.', ""),
+                    'currency_code' => 'EUR',
+                ]
+            ];
+            $paypalItems[] = $line;
+        }
+    
+        $paypalOrder = json_encode([
+            'purchase_units' => [
+                [
+                    'description' => "Panier d'achat",
+                    'items' => $paypalItems,
+                    'amount' => [
+                        'currency_code' => 'EUR',
+                        'value' => number_format($total, 2, '.', ""),
+                        'breakdown' => [
+                            'item_total' => [
+                                'currency_code' => 'EUR',
+                                'value' => number_format($total, 2, '.', ""),
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
         return $this->render("cart/payment_validation.html.twig", compact
-        ("lineItems", "total"));
+        ("lineItems", "total", "paypalItems", "paypalOrder", "paypalClientId"));
     }
 
     #[Route("/stripe/create/session", name:"_stripe_create_session", methods: ["GET"])]
@@ -185,6 +221,67 @@ class CartController extends AbstractController
         return new JsonResponse(['id' => $checkout_session->id]);
     }
 
+    #[Route("/handle-paypal-payment", name:"_handle_paypal_payment", methods: ['GET', 'POST'])]
+    public function handlePaypalPayment(
+        Request $request,
+        PaypalService $paypalService,
+        AtelierRepository $atelierRepository,
+        EntityManagerInterface $entityManagerInterface,
+        ): Response
+    {
+        $clientId = $_ENV['PAYPAL_PUBLIC_KEY'];
+        $clientSecret = $_ENV['PAYPAL_SECRET_KEY'];
+        // false en production
+        $sandbox = true;
+        if ($sandbox) {
+            $environment = new \PayPalCheckoutSdk\Core\SandboxEnvironment($clientId, $clientSecret);
+        } else {
+            $environment = new \PayPalCheckoutSdk\Core\ProductionEnvironment($clientId, $clientSecret);
+        }
+        $client = new \PayPalCheckoutSdk\Core\PayPalHttpClient($environment);
+        $requestParams = json_decode($request->getContent(), true);
+        $authorizationId = $requestParams['authorizationId'];
+        $total = $requestParams['total'];
+        $authorizationRequest = new \PayPalCheckoutSdk\Payments\AuthorizationsGetRequest($authorizationId);
+        $authorizationResponse = $client->execute($authorizationRequest);
+        // On vérifie que le montant n'a pas été modifié
+        if ($authorizationResponse->result->amount->value !== number_format($total, 2, '.', "")) {
+            return $this->redirectToRoute("cart_canceled", ['_fragment' => 'payment_canceled'], Response::HTTP_SEE_OTHER);
+        }
+        // On peut récupérer l'Order créé par le bouton
+        // $orderId = $authorizationResponse->result->supplementary_data->related_ids->order_id;
+        // $request = new OrdersGetRequest($orderId);
+        // $orderResponse = $client->execute($request);
+
+        // Vérifier si le stock est dispo
+
+        // Verrouiller le produit (retirer du stock pour éviter une commande en parallèle entre temps)
+        $cart = $request->getSession()->get("cart", []);
+        $ateliers = [];
+        foreach($cart as $id => $quantity) {
+            $atelier = $atelierRepository->find($id);
+            $ateliers[] = $atelier;
+        }
+        $order = $paypalService->createOrder($ateliers, $total, $this->getUser());
+        // Sauvegarder les informations de l'utilisateur
+
+        // On capture l'autorisation
+        $authorizationsCaptureRequest = new AuthorizationsCaptureRequest($authorizationId);
+        $response = $client->execute($authorizationsCaptureRequest);
+        if ($response->result->status !== 'COMPLETED') {
+            return $this->redirectToRoute("cart_canceled", ['_fragment' => 'payment_canceled'], Response::HTTP_SEE_OTHER);
+        } else {
+            $order->setStatus("success");
+            $entityManagerInterface->persist($order);
+            $entityManagerInterface->flush();
+        }
+        $session = $request->getSession();
+        $session->getFlashBag()->add('paypal', true);
+        $session->getFlashBag()->add('total', $total);
+        $session->getFlashBag()->add('order', $order);
+        return new Response();
+    }
+
     #[Route("/commande/validation", name:"_success")]
     public function cartSuccess(
         Request $request,
@@ -194,22 +291,28 @@ class CartController extends AbstractController
         MailerInterface $mailer
     )
     {
-        $cart = $request->getSession()->get("cart", []);
+        $session = $request->getSession();
+        $cart = $session->get("cart", []);
+        $paypal = $session->getFlashBag()->get('paypal');
 
         if (!empty($cart)) {
-            $ateliers = [];
-            $total = 0;
-    
-            foreach($cart as $id => $quantity) {
-                $atelier = $atelierRepository->find($id);
-                $total += $atelier->getPrice() * $quantity;
-                $ateliers[] = $atelier;
+            $order = $session->getFlashBag()->get('order')[0];
+            $total = $session->getFlashBag()->get('total')[0];
+            if (!$paypal) {
+                $ateliers = [];
+                $total = 0;
+        
+                foreach($cart as $id => $quantity) {
+                    $atelier = $atelierRepository->find($id);
+                    $total += $atelier->getPrice() * $quantity;
+                    $ateliers[] = $atelier;
+                }
+        
+                $order = $stripeService->createOrder($ateliers, $total, $this->getUser());
+                $order->setStatus("success");
+                $entityManagerInterface->persist($order);
+                $entityManagerInterface->flush();
             }
-    
-            $order = $stripeService->createOrder($ateliers, $total, $this->getUser());
-            $order->setStatus("success");
-            $entityManagerInterface->persist($order);
-            $entityManagerInterface->flush();
 
             $email = (new TemplatedEmail())
             ->from('hello@example.com')

@@ -30,6 +30,10 @@
             label: "Service",
             'attr': {class:"d-flex flex-column rounded-pill"}
         }) }}
+        {{ form_row(form.stock, {
+            label: "Nombre de places",
+            'attr': {class:"d-flex flex-column rounded-pill"}
+        }) }}
     <button type="submit" class="btn btn-primary rounded-pill">{{ button_label|default('Valider') }}</button>
 {{ form_end(form) }}
 </fieldset>

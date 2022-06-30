@@ -34,6 +34,11 @@
                         <a href="{{ path('app_atelier_show', {'id': atelier.id, '_fragment': 'atelier-show'}) }}" class="link-dark"><h2>{{ atelier.title }}</h2></a>
                         <p>{{ atelier.date ? atelier.date|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm") : '' }}</p>
                         <p>{{ atelier.shortDescription }}</p>
+                        {% if atelier.stock <= 0 %}
+                        <span class="text-danger">Complet</span>
+                        {% else %}
+                        <span class="text-success">{{ atelier.stock }} Places restantes</span>
+                        {% endif %}
                     </div>
                 </div>
                 {% else %}

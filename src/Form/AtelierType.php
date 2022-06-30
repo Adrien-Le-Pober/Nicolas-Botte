@@ -33,6 +33,7 @@ class AtelierType extends AbstractType
                 'class' => Service::class,
                 'choice_label' => 'name',
             ])
+            ->add('stock', NumberType::class)
         ;
     }
 

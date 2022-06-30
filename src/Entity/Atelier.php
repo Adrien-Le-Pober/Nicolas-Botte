@@ -53,6 +53,9 @@ class Atelier
     #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'ateliers')]
     private $orders;
 
+    #[ORM\Column(type: 'integer')]
+    private $stock;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -208,6 +211,18 @@ class Atelier
         if ($this->orders->removeElement($order)) {
             $order->removeAtelier($this);
         }
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(int $stock): self
+    {
+        $this->stock = $stock;
 
         return $this;
     }

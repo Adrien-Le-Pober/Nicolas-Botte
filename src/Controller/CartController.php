@@ -296,8 +296,6 @@ class CartController extends AbstractController
         $paypal = $session->getFlashBag()->get('paypal');
 
         if (!empty($cart)) {
-            $order = $session->getFlashBag()->get('order')[0];
-            $total = $session->getFlashBag()->get('total')[0];
             if (!$paypal) {
                 $ateliers = [];
                 $total = 0;
@@ -312,6 +310,9 @@ class CartController extends AbstractController
                 $order->setStatus("success");
                 $entityManagerInterface->persist($order);
                 $entityManagerInterface->flush();
+            } else {
+                $order = $session->getFlashBag()->get('order')[0];
+                $total = $session->getFlashBag()->get('total')[0];
             }
 
             $email = (new TemplatedEmail())

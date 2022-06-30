@@ -27,6 +27,7 @@ class StripeService
         $order->setUser($user);
         $order->setPrice($price);
         foreach($ateliers as $atelier){
+            $atelier->setStock($atelier->getStock() - 1);
             $order->addAtelier($atelier);
         }
         $order->setCreatedAt(new \DateTimeImmutable());

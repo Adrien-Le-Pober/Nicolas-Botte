@@ -19,12 +19,13 @@
                 <label for="password">Mot de passe</label>
                 <input type="password" id="password" name="_password" class="form-control rounded-pill"/>
             </div>
-            <a href="{{ path("app_register", {'_fragment': 'register'}) }}" class="align-self-end text-small">Pas encore inscrit?</a>
+            <a href="{{ path("app_forgot_password_request", {'_fragment': 'forgot-password-request'}) }}" class="align-self-end text-small">Mot de passe oublié?</a>
 
             {# If you want to control the URL the user is redirected to on success
             <input type="hidden" name="_target_path" value="/account"/> #}
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
             <button type="submit" class="btn btn-primary rounded-pill mt-3">Valider</button>
+            <a href="{{ path("app_register", {'_fragment': 'register'}) }}" class="btn btn-outline-primary rounded-pill mt-3">Pas encore inscrit?</a>
         </form>
     </fieldset>
 </main>

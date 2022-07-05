@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Changement de mot de passe{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    {% for flash_error in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+    <main class="container d-flex flex-column align-items-center" id="forgot-password-request">
+        <h1 class="my-3">Changer votre mot de passe</h1>
+        {{ form_start(requestForm,
+            {'attr': {'class': 'd-flex col-11 col-md-6 col-xl-4 flex-column align-items-center'}}
+            ) }}
+                <div class="col-12">
+                    {{ form_row(requestForm.email,
+                        {'attr': {'class': 'rounded-pill'}}
+                        ) }}
+                </div>
+
+            <button class="btn btn-primary rounded-pill my-3">Envoyer l'email</button>
+        {{ form_end(requestForm) }}
+    </main>
+{% endblock %}

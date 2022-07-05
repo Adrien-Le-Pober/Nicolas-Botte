@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email de changement de mot de passe envoyé{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    <main class="container d-flex flex-column align-items-center my-5" id="check-email">
+        {% for category, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <p>
+            Si un compte correspond à votre adresse email, un mail vient de vous être envoyé, il contient un lien que vous
+            pouvez utiliser pour changer votre mot de passe.
+            Ce lien expirera dans 1 heure.
+        </p>
+        <p>
+            Si vous ne recevez pas de mail, vérifier vos spam, ou <a href="{{ path('app_forgot_password_request', {'_fragment':'forgot-password-request'}) }}">réessayez</a>.
+        </p>
+    </main>
+{% endblock %}

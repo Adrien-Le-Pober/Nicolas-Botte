@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Changer de mot de passe{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    <main class="container d-flex flex-column align-items-center my-3" id="reset">
+        <h1 class="my-3">Changer le mot de passe</h1>
+
+        {{ form_start(resetForm) }}
+            {{ form_row(resetForm.plainPassword) }}
+            <button class="btn btn-primary rounded-pill col-12 my-3">Valider</button>
+        {{ form_end(resetForm) }}
+    </main>
+{% endblock %}

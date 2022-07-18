@@ -19,7 +19,14 @@ class UserAdminController extends AbstractController
     #[Route('/', name: 'app_user_admin_index', methods: ['GET', 'POST'])]
     public function index(UserRepository $userRepository, Request $request): Response
     {
-        $users = $userRepository->findAll();
+        //on définit le nombre d'éléments par page
+        $limit = 25;
+        //on récupère le numero de page ou 1
+        $page = (int)$request->query->get('page', 1);
+        $users = $userRepository->getPaginatedUsers($page, $limit);
+        //on récupère le nombre total d'articles
+        $total = $userRepository->getTotalUsers();
+
         $form = $this->createForm(SearchUserType::class);
 
         $search = $form->handleRequest($request);
@@ -30,7 +37,10 @@ class UserAdminController extends AbstractController
 
         return $this->render('user_admin/index.html.twig', [
             'users' => $users,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'page' => $page,
+            'total' => $total,
+            'limit' => $limit
         ]);
     }
 

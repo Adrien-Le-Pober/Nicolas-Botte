@@ -60,5 +60,24 @@
             {% endfor %}
             </tbody>
         </table>
+        {% if total > limit %}
+            {# get total number of pages #}
+            {% set pages = (total / limit)|round(0, 'ceil') %}
+            <nav aria-label="Pagination des utilisateurs">
+                <ul class="pagination">
+                    <li class="page-item {{ (page == 1) ? 'disabled' : ''}}">
+                        <a class="page-link" href="{{ (page > 1) ? '?page=' ~ (page - 1) ~ '#user-index' : '' }}" tabindex="-1" aria-disabled="true">Précédent</a>
+                    </li>
+                    {% for item in 1..(pages) %}
+                    <li class="page-item {{ (page == item) ? 'active' : ''}}">
+                        <a class="page-link" href="?page={{item}}#user-index">{{ item }}</a>
+                    </li>
+                    {% endfor %}
+                    <li class="page-item {{ (page == pages) ? 'disabled' : ''}}">
+                        <a class="page-link" href="{{ (page < pages) ? '?page=' ~ (page + 1) ~ '#user-index' : '' }}">Suivant</a>
+                    </li>
+                </ul>
+            </nav>
+        {% endif %}
     </main>
 {% endblock %}

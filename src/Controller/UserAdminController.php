@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\User1Type;
 use App\Form\UserAdminType;
+use App\Form\SearchUserType;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,11 +16,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[IsGranted("ROLE_ADMIN")]
 class UserAdminController extends AbstractController
 {
-    #[Route('/', name: 'app_user_admin_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    #[Route('/', name: 'app_user_admin_index', methods: ['GET', 'POST'])]
+    public function index(UserRepository $userRepository, Request $request): Response
     {
+        $users = $userRepository->findAll();
+        $form = $this->createForm(SearchUserType::class);
+
+        $search = $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $users = $userRepository->search($search->get('searchContent')->getData());
+        }
+
         return $this->render('user_admin/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $users,
+            'form' => $form->createView()
         ]);
     }
 

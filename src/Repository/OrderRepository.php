@@ -49,6 +49,25 @@ class OrderRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function getPaginatedOrders($page, $limit)
+    {
+        $query = $this->createQueryBuilder('o')
+            ->orderBy('o.createdAt')
+            ->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
+    public function getTotalOrders()
+    {
+        $query = $this->createQueryBuilder('o')
+            ->select('COUNT(o)')
+        ;
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
+
 //    /**
 //     * @return Order[] Returns an array of Order objects
 //     */

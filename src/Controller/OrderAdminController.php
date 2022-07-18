@@ -19,7 +19,15 @@ class OrderAdminController extends AbstractController
         Request $request
         ): Response
     {
-        $orders = $orderRepository->findAll();
+        //on définit le nombre d'éléments par page
+        $limit = 2;
+        //on récupère le numero de page ou 1
+        $page = (int)$request->query->get('page', 1);
+        $orders = $orderRepository->getPaginatedOrders($page, $limit);
+        //on récupère le nombre total d'articles
+        $total = $orderRepository->getTotalOrders();
+
+
         $form = $this->createForm(SearchOrderType::class);
         $search = $form->handleRequest($request);
 
@@ -29,7 +37,10 @@ class OrderAdminController extends AbstractController
 
         return $this->render('order_admin/index.html.twig', [
             'orders' => $orders,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'limit' => $limit,
+            'page' => $page,
+            'total' => $total
         ]);
     }
 

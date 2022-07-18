@@ -39,6 +39,16 @@ class OrderRepository extends ServiceEntityRepository
         }
     }
 
+    public function search($words)
+    {
+        $query = $this->createQueryBuilder('o');
+        if ($words != null) {
+            $query->andWhere('MATCH_AGAINST(o.reference) AGAINST(:searchReference boolean)>0')
+            ->setParameter('searchReference', $words);
+        }
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Order[] Returns an array of Order objects
 //     */

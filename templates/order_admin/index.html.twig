@@ -7,6 +7,17 @@
     <main class="container my-3" id="admin-orders">
         <h1 class="text-center">Liste des commandes</h1>
 
+        {{ form_start(form) }}
+            <div>
+                {{ form_errors(form) }}
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.searchReference) }}
+                </div>
+            </div>
+        {{ form_end(form) }}
+
         <table class="table">
             <thead>
                 <tr>

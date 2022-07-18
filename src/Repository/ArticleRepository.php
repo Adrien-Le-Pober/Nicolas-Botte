@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Article;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<Article>
@@ -37,6 +38,24 @@ class ArticleRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getPaginatedArticles($page, $limit)
+    {
+        $query = $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt')
+            ->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
+    public function getTotalArticles()
+    {
+        $query = $this->createQueryBuilder('a')
+            ->select('COUNT(a)')
+        ;
+        return $query->getQuery()->getSingleScalarResult();
     }
 
 //    /**

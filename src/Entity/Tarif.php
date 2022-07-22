@@ -14,6 +14,10 @@ class Tarif
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le titre est limité à {{ limit }} caractères',
+    )]
     private $title;
 
     #[ORM\Column(type: 'float')]

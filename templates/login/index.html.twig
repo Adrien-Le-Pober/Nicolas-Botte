@@ -4,12 +4,12 @@
 
 {% block body %}
 <div class="min-vh-100"></div>
-{% if error %}
-<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
 <main class="container d-flex flex-column align-items-center" id="login">
     <h1 class="mt-5">Formulaire de connexion</h1>
     <fieldset class="border border-primary border-rounded my-5 shadow col-12 col-md-8 col-lg-6 col-xl-4">
+        {% if error %}
+        <div class="text-center text-danger">Identifiants invalides</div>
+        {% endif %}
         <form action="{{ path('login') }}" method="post" class="d-flex flex-column my-3 p-3">
             <div class="d-flex flex-column form-group">
                 <label for="username">Email</label>

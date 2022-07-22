@@ -18,9 +18,15 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, [
                 'required' => true
             ])
-            ->add('lastname', TextType::class)
-            ->add('firstname', TextType::class)
-            ->add('phone', NumberType::class)
+            ->add('lastname', TextType::class, [
+                'required' => false
+            ])
+            ->add('firstname', TextType::class, [
+                'required' => false
+            ])
+            ->add('phone', NumberType::class, [
+                'required' => false
+            ])
         ;
     }
 

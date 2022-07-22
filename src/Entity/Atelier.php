@@ -20,6 +20,10 @@ class Atelier
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le titre est limité à 255 caractères',
+    )]
     private $title;
 
     #[ORM\Column(type: 'datetime')]
@@ -31,13 +35,21 @@ class Atelier
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $editedAt;
 
-    #[ORM\Column(type: 'string', length: 500, nullable: true)]
+    #[ORM\Column(type: 'string', length: 160, nullable: true)]
+    #[Assert\Length(
+        max: 160,
+        maxMessage: 'La description courte est limitée à {{ limit }} caractères',
+    )]
     private $shortDescription;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $longDescription;
 
     #[ORM\Column(type: 'float')]
+    #[Assert\GreaterThanOrEqual(
+        value: 0,
+        message: "La valeur ne peut être inférieure à 0"
+    )]
     private $price;
 
     #[ORM\ManyToOne(targetEntity: Service::class, inversedBy: 'ateliers')]
@@ -47,13 +59,23 @@ class Atelier
     private $image;
 
     #[Vich\UploadableField(mapping: "ateliers", fileNameProperty : "image")]
-    #[Assert\File(maxSize : "1M",mimeTypes : ["image/jpeg", "image/png", "image/webp"])]
+    #[Assert\File(
+        maxSize : "1M",
+        mimeTypes : ["image/jpeg", "image/png", "image/webp"],
+        maxSizeMessage : "Le fichier est trop volumineux ({{ size }}{{ suffix }}). La taille maximale est {{ limit }}{{ suffix }}.",
+        mimeTypesMessage : "Les fichiers de type {{ type }} ne sont pas supportés, les types supportés sont {{ types }}."
+    )]
+    #[Assert\NotBlank(message: "Ajoutez une image")]
     private $filePath;
 
     #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'ateliers')]
     private $orders;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\GreaterThanOrEqual(
+        value: 0,
+        message: "La valeur ne peut être inférieure à 0"
+    )]
     private $stock;
 
     public function __construct()

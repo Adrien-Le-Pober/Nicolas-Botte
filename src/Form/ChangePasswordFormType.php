@@ -18,7 +18,7 @@ class ChangePasswordFormType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
-                    'attr' => ['autocomplete' => 'new-password'],
+                    'attr' => ['autocomplete' => 'new-password', 'class' => 'rounded-pill'],
                     'constraints' => [
                         new NotBlank([
                             'message' => 'Veuillez entrer un mot de passe',
@@ -33,7 +33,7 @@ class ChangePasswordFormType extends AbstractType
                     'label' => 'Nouveau mot de passe',
                 ],
                 'second_options' => [
-                    'attr' => ['autocomplete' => 'new-password'],
+                    'attr' => ['autocomplete' => 'new-password', 'class' => 'rounded-pill'],
                     'label' => 'Confirmation du mot de passe',
                 ],
                 'invalid_message' => 'Le mot de passe doit être le même.',

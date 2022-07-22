@@ -15,7 +15,8 @@
         <h1 class="text-center my-3">Modifier mes informations</h1>
         {{ include('user/_password_form.html.twig', {'button_label': 'Mettre à jour'}) }}
         {{ include('user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-
-        {{ include('user/_delete_form.html.twig') }}
+        {# Bouton de suppression du compte
+        {{ include('user/_delete_form.html.twig') }} 
+        #}
     </main>
 {% endblock %}

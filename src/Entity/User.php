@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Cette adresse email est déjà utilisée')]
@@ -22,12 +22,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\Length(
+        min: 3,
+        max: 180,
+        minMessage: 'au moins {{ limit }} caractères',
+        maxMessage: 'limité à {{ limit }} caractères',
+    )]
+    #[Assert\NotBlank(message: 'Cette information est requise')]
+    #[Assert\Email(message: 'Le format est invalide')]
     private $email;
 
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
+    #[Assert\Length(
+        min: 60,
+        max: 60,
+        minMessage: 'Mot de passe invalide',
+        maxMessage: 'Mot de passe invalide',
+    )]
+    #[Assert\NotBlank(message: 'Cette information est requise')]
     private $password;
 
     #[ORM\Column(type: 'boolean')]
@@ -37,9 +52,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $createdAt;
 
     #[ORM\Column(type: 'string', length: 90, nullable: true)]
+    #[Assert\Length(
+        min: 2,
+        max: 90,
+        minMessage: 'au moins {{ limit }} caractères',
+        maxMessage: 'limité à {{ limit }} caractères',
+    )]
     private $lastname;
 
     #[ORM\Column(type: 'string', length: 90, nullable: true)]
+    #[Assert\Length(
+        min: 2,
+        max: 90,
+        minMessage: 'au moins {{ limit }} caractères',
+        maxMessage: 'limité à {{ limit }} caractères',
+    )]
     private $firstname;
 
     #[ORM\Column(type: 'integer', nullable: true)]

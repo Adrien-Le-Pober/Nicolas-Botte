@@ -16,6 +16,10 @@ class Service
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le titre est limité à {{ limit }} caractères',
+    )]
     private $name;
 
     #[ORM\OneToMany(mappedBy: 'service', targetEntity: Tarif::class)]

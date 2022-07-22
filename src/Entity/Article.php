@@ -18,6 +18,10 @@ class Article
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le titre est limité à 255 caractères',
+    )]
     private $title;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -33,7 +37,12 @@ class Article
     private $image;
 
     #[Vich\UploadableField(mapping: "articles", fileNameProperty : "image")]
-    #[Assert\File(maxSize : "1M",mimeTypes : ["image/jpeg", "image/png", "image/webp"])]
+    #[Assert\File(
+        maxSize : "1M",
+        mimeTypes : ["image/jpeg", "image/png", "image/webp"],
+        maxSizeMessage : "Le fichier est trop volumineux ({{ size }}{{ suffix }}). La taille maximale est {{ limit }}{{ suffix }}.",
+        mimeTypesMessage : "Les fichiers de type {{ type }} ne sont pas supportés, les types supportés sont {{ types }}."
+    )]
     private $filePath;
 
     public function getId(): ?int

@@ -24,9 +24,10 @@ class RegistrationFormType extends AbstractType
                     new Length([
                         'min' => 3,
                         'minMessage' => 'Adresse email trop courte',
-                        'max' => 1000,
+                        'max' => 180,
                         'minMessage' => 'Adresse email trop longue',
-                    ])
+                    ]),
+                    new NotBlank(message: "Cette information est requise")
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [

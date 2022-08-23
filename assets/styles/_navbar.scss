@@ -193,6 +193,9 @@ ul li ul li a { transition: all 0.5s ease; }
     }
     &__dropdown--link {
       font-size: 35px;
+      &:hover {
+        font-size: 38px;
+      }
     }
   }
 }

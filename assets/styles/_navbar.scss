@@ -143,13 +143,13 @@ ul li ul li a { transition: all 0.5s ease; }
   }
   header .logo
   {
-    font-size: 50px;
+    font-size: 30px;
   }
   .toggle
   {
     position: relative;
-    width: 60px;
-    height: 60px;
+    width: 35px;
+    height: 35px;
     background: url(https://i.ibb.co/HrfVRcx/menu.png);
     background-repeat: no-repeat;
     background-size: 60px;
@@ -188,13 +188,17 @@ ul li ul li a { transition: all 0.5s ease; }
       padding: 20px 0;
     }
     &__link {
-      font-size: 40px;
-      color: white;
+      font-size: 20px;
+      color: rgb(238, 228, 228);
+    }
+    &__dropdown {
+      width: 70vw;
+      transform: translateX(-10vw);
     }
     &__dropdown--link {
-      font-size: 35px;
+      font-size: 20px;
       &:hover {
-        font-size: 38px;
+        font-size: 22px;
       }
     }
   }

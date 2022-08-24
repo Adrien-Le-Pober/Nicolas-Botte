@@ -22,19 +22,19 @@
   <hr class="w-50 mx-auto">
   <section class="d-flex flex-column align-items-center flex-xl-row justify-content-xl-around pb-3">
     <div class="d-flex flex-column text-center text-xl-center my-2 col-xl-4">
-      <a href="#" class="text-white">Accueil</a>
-      <a href="#" class="text-white">Qui suis-je?</a>
-      <a href="#" class="text-white">Naturopathie</a>
-      <a href="#" class="text-white">Hypnose</a>
+      <a href="{{ path("app_home", {'_fragment': 'home'}) }}" class="text-white">Accueil</a>
+      <a href="{{ path("app_qui-suis-je", {'_fragment': 'qui-suis-je'}) }}" class="text-white">Qui suis-je?</a>
+      <a href="{{ path("app_naturopathie", {'_fragment': 'naturopathie'}) }}" class="text-white">Naturopathie</a>
+      <a href="{{ path("app_hypnose", {'_fragment': 'hypnose'}) }}" class="text-white">Hypnose</a>
     </div>
     <div class="d-flex flex-column text-center text-xl-center my-2 col-xl-4">
       <a href="#" class="text-white">Rendez-vous</a>
-      <a href="#" class="text-white">Les ateliers</a>
-      <a href="#" class="text-white">Les tarifs</a>
-      <a href="#" class="text-white">Contactez-moi</a>
+      <a href="{{ path("app_atelier_index", {'_fragment': 'ateliers'}) }}" class="text-white">Les ateliers</a>
+      <a href="{{ path("app_tarif_index", {'_fragment': 'tarifs'}) }}" class="text-white">Les tarifs</a>
+      <a href="{{ path("app_contact", {'_fragment': 'contact'}) }}" class="text-white">Contactez-moi</a>
     </div>
     <div class="d-flex flex-column text-center text-xl-center my-2 col-xl-4">
-      <a href="#" class="text-white">Blog</a>
+      <a href="{{ path('app_article_index', {'_fragment': 'blog'}) }}" class="text-white">Blog</a>
       <a href="#" class="text-white">Politique de confidentialité</a>
     </div>
   </section>

@@ -53,6 +53,7 @@ class Atelier
     private $price;
 
     #[ORM\ManyToOne(targetEntity: Service::class, inversedBy: 'ateliers')]
+    #[ORM\JoinColumn(nullable: false, name: "service_id", referencedColumnName: "id", onDelete: "CASCADE")]
     private $service;
 
     #[ORM\Column(type: 'string', length: 255)]

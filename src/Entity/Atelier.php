@@ -79,6 +79,10 @@ class Atelier
     )]
     private $stock;
 
+    #[ORM\ManyToOne(targetEntity: Tva::class, inversedBy: 'atelier')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $tva;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -246,6 +250,18 @@ class Atelier
     public function setStock(int $stock): self
     {
         $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function getTva(): ?Tva
+    {
+        return $this->tva;
+    }
+
+    public function setTva(?Tva $tva): self
+    {
+        $this->tva = $tva;
 
         return $this;
     }

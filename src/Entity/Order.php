@@ -38,6 +38,9 @@ class Order
     #[ORM\Column(type: 'float')]
     private $price;
 
+    #[ORM\Column(type: 'float')]
+    private $tva;
+
     public function __construct()
     {
         $this->ateliers = new ArrayCollection();
@@ -140,6 +143,18 @@ class Order
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getTva(): ?float
+    {
+        return $this->tva;
+    }
+
+    public function setTva(float $tva): self
+    {
+        $this->tva = $tva;
 
         return $this;
     }

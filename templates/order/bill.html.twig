@@ -37,7 +37,6 @@
     <div style="float:left;">
         <p><b>Facturé par :</b></p>
         <p>Nicolas Botte</p>
-        <p>SIRET : ?</p>
         <p>adresse: 37 rue de la liberté</p>
         <p>91240 Saint-Michel-Sur-Orge</p>
         <p>Téléphone : 07.67.98.64.69</p>
@@ -45,8 +44,6 @@
     <div style="float:right;">
         <p><b>Facturé à :</b></p>
         <p>{{ order.user.lastname }} {{ order.user.firstname }}</p>
-{#         <p>{{ order.user.address ?: '' }}</p>
-        <p>{{ order.user.zipCode ?: '' }}</p> #}
         <p>{{ order.user.phone ?? '' }}</p>
         <br>
         <p>Saint-Michel-Sur-Orge,</p>

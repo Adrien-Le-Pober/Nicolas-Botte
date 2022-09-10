@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la TVA{% endblock %}
+
+{% block body %}
+    <div class="min-vh-100"></div>
+    <main class="container d-flex flex-column align-items-center" id="tva-edit">
+        {% for category, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <h1 class="text-center my-3">Modification de la TVA</h1>
+        {{ include('tva/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+        <a class="btn btn-outline-primary rounded-pill mb-3" href="{{ path('app_tarif_index', {'_fragment': 'tarifs'}) }}">Retour vers l'accueil</a>
+    </main>
+{% endblock %}

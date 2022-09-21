@@ -39,4 +39,10 @@ class HomeController extends AbstractController
     {
         return $this->render('home/qui-suis-je.html.twig');
     }
+
+    #[Route('/rendez-vous', name: 'app_rendez-vous')]
+    public function rendezVous(): Response
+    {
+        return $this->render('home/rendez-vous.html.twig');
+    }
 }

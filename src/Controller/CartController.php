@@ -9,6 +9,7 @@ use App\Services\PaypalService;
 use App\Services\StripeService;
 use App\Repository\UserRepository;
 use App\Repository\AtelierRepository;
+use App\Repository\TvaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -95,7 +96,11 @@ class CartController extends AbstractController
     public function userInfos(
         Request $request,
         User $user,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        AtelierRepository $atelierRepository,
+        PaypalService $paypalService,
+        EntityManagerInterface $entityManagerInterface,
+        TvaRepository $tvaRepository
     )
     : Response
     {
@@ -108,7 +113,24 @@ class CartController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->add($user, true);
 
-            return $this->redirectToRoute("cart_payment_validation", ['_fragment' => 'payment-validation'], Response::HTTP_SEE_OTHER);
+            $cart = $request->getSession()->get("cart", []);
+            $ateliers = [];
+            foreach($cart as $id => $quantity) {
+                $atelier = $atelierRepository->find($id);
+                $ateliers[] = $atelier;
+            }
+            $tva = $tvaRepository->findOneBy(['id' => 1]);
+            $order = $paypalService->createOrder($ateliers, 0, $this->getUser(), $tva->getValue());
+            $order->setStatus("success");
+            $entityManagerInterface->persist($order);
+            $entityManagerInterface->flush();
+
+            $session = $request->getSession();
+            $session->getFlashBag()->add('paypal', true);
+            $session->getFlashBag()->add('total', 0);
+            $session->getFlashBag()->add('order', $order);
+
+            return $this->redirectToRoute("cart_success", ['_fragment' => 'payment_success'], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('cart/user_infos.html.twig', [
@@ -117,7 +139,7 @@ class CartController extends AbstractController
         ]);
     }
 
-    #[Route("/payment-validation", name:"_payment_validation")]
+/*     #[Route("/payment-validation", name:"_payment_validation")]
     public function paymentValidation(Request $request, AtelierRepository $atelierRepository): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -181,9 +203,9 @@ class CartController extends AbstractController
 
         return $this->render("cart/payment_validation.html.twig", compact
         ("lineItems", "total", "paypalItems", "paypalOrder", "paypalClientId"));
-    }
+    } */
 
-    #[Route("/stripe/create/session", name:"_stripe_create_session", methods: ["GET"])]
+/*     #[Route("/stripe/create/session", name:"_stripe_create_session", methods: ["GET"])]
     public function stripeCreateSession(Request $request, StripeService $stripeService, AtelierRepository $atelierRepository)
     {
         $cart = $request->getSession()->get("cart", []);
@@ -219,9 +241,9 @@ class CartController extends AbstractController
         ]);
 
         return new JsonResponse(['id' => $checkout_session->id]);
-    }
+    } */
 
-    #[Route("/handle-paypal-payment", name:"_handle_paypal_payment", methods: ['GET', 'POST'])]
+/*     #[Route("/handle-paypal-payment", name:"_handle_paypal_payment", methods: ['GET', 'POST'])]
     public function handlePaypalPayment(
         Request $request,
         PaypalService $paypalService,
@@ -280,7 +302,7 @@ class CartController extends AbstractController
         $session->getFlashBag()->add('total', $total);
         $session->getFlashBag()->add('order', $order);
         return new Response();
-    }
+    } */
 
     #[Route("/commande/validation", name:"_success")]
     public function cartSuccess(
@@ -296,7 +318,7 @@ class CartController extends AbstractController
         $paypal = $session->getFlashBag()->get('paypal');
 
         if (!empty($cart)) {
-            if (!$paypal) {
+/*             if (!$paypal) {
                 $ateliers = [];
                 $total = 0;
         
@@ -313,7 +335,9 @@ class CartController extends AbstractController
             } else {
                 $order = $session->getFlashBag()->get('order')[0];
                 $total = $session->getFlashBag()->get('total')[0];
-            }
+            } */
+            $order = $session->getFlashBag()->get('order')[0];
+            $total = $session->getFlashBag()->get('total')[0];
 
             $email = (new TemplatedEmail())
             ->from('hello@example.com')

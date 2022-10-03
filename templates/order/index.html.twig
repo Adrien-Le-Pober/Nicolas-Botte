@@ -16,7 +16,7 @@
                             Prix total : {{ order.price|format_currency('EUR') }}
                         </p>
                         <a class="btn btn-outline-primary rounded-pill my-1" href="{{ path('app_order_show', {id:order.id, '_fragment': 'order-show'}) }}">Voir les détails de la commande</a>
-                        <a class="btn btn-outline-primary rounded-pill my-1" href="{{ path('app_bill', {id:order.id}) }}">Voir la facture</a>
+{#                         <a class="btn btn-outline-primary rounded-pill my-1" href="{{ path('app_bill', {id:order.id}) }}">Voir la facture</a> #}
                     </div>
                 </div>
             {% else %}

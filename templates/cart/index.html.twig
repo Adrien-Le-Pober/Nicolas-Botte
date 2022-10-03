@@ -19,7 +19,13 @@
                   </a>
                   <h5 class="card-title">{{ atelier['price_data']['product_data']['name'] }}</h5>
                   <p class="card-text">Le {{ atelier['atelier_date']|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm") }}</p>
-                  <span class="align-self-end">{{ atelier['price_data']['unit_amount']|format_currency('EUR') }}</span>
+                  <span class="align-self-end">
+                    {% if atelier['price_data']['unit_amount'] == 0 %}
+                    <p class="alert-success">Gratuit</p>
+                    {% else %}
+                    {{ atelier['price_data']['unit_amount']|format_currency('EUR') }}
+                    {% endif %}
+                  </span>
                 </div>
               </div>
 

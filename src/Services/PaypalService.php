@@ -3,18 +3,20 @@
 namespace App\Services;
 
 use App\Entity\Order;
+use App\Repository\TvaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PaypalService
 {
     private $em;
+    private $tvaRepository;
 
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
 
-    public function createOrder($ateliers, $price, $user)
+    public function createOrder($ateliers, $price, $user, $tva)
     {
         $order = new Order();
         $order->setUser($user);
@@ -25,7 +27,7 @@ class PaypalService
         }
         $order->setCreatedAt(new \DateTimeImmutable());
         $order->setReference(hexdec(uniqid()));
-        
+        $order->setTva($tva);
         
         $this->em->persist($order);
         $this->em->flush();

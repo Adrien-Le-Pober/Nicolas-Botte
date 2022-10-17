@@ -39,6 +39,11 @@ class AtelierRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAll()
+    {
+        return $this->findBy([], ['date' => 'DESC']);
+    }
+
 //    /**
 //     * @return Atelier[] Returns an array of Atelier objects
 //     */

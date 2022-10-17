@@ -31,7 +31,7 @@
         <hr class="w-75 mx-auto my-5">
         <section class="d-flex flex-column align-items-center my-3">
             <h3 class="text-center">Découvrez mes derniers articles de blog</h3>
-            <div class="d-flex flex-column flex-xl-row align-items-center justify-content-xl-around my-3">
+            <div class="d-flex flex-column flex-xl-row align-items-center justify-content-xl-center my-3">
             {% for article in lastArticles %}
                 <div class="card border-rounded bg-secondary p-3 col-11 col-md-8 col-xl-4 my-3 shadow mx-2 reveal">
                     <a href={{ path('app_article_show', {'id': article.id, '_fragment': 'article-show'}) }}>
@@ -50,7 +50,7 @@
         <hr class="w-75 mx-auto my-5">
         <section class="d-flex flex-column align-items-center">
             <h3 class="text-center">Participez à mes prochains ateliers</h3>
-            <div class="d-flex flex-column flex-xl-row align-items-center justify-content-xl-around my-3">
+            <div class="d-flex flex-column flex-xl-row align-items-center justify-content-xl-center my-3">
             {% for atelier in lastAteliers %}
                 <div class="card border-rounded bg-secondary p-3 col-11 col-md-8 col-xl-4 my-3 shadow mx-2 reveal">
                     <a href={{ path('app_atelier_show', {'id': atelier.id, '_fragment': 'atelier-show'}) }}>
@@ -60,6 +60,13 @@
                         <a href="{{ path('app_atelier_show', {'id': atelier.id, '_fragment': 'atelier-show'}) }}" class="link-dark fs-3">{{ atelier.title }}</a>
                         <p>{{ atelier.date ? atelier.date|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY à HH:mm") : '' }}</p>
                         <p>{{ atelier.shortDescription }}</p>
+                        {% if atelier.date|date("Y-m-d") < 'now'|date("Y-m-d") %}
+                        <span class="text-danger">Terminé</span>
+                        {% elseif atelier.stock <= 0 %}
+                        <span class="text-danger">Complet</span>
+                        {% else %}
+                        <span class="text-success">{{ atelier.stock }} Places restantes</span>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

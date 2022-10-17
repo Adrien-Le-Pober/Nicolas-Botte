@@ -14,7 +14,11 @@
             <p><strong>{{ atelier.shortDescription }}</strong></p>
             <p>{{ atelier.longDescription }}</p>
             <p>{{ atelier.price|format_currency('EUR') }}</p>
+            {% if atelier.date|date("Y-m-d") < 'now'|date("Y-m-d") %}
+            <p class="text-danger">Cet atelier est terminé</p>
+            {% else %}
             <a href="{{ path('cart_add', {id: atelier.id}) }}" class="btn btn-success my-3">Ajouter au panier</a>
+            {% endif %}
             <a class="btn btn-outline-primary col-6 my-3 border-rounded" href="{{ path('app_atelier_index', {'_fragment': 'ateliers'}) }}">Retour vers les ateliers</a>
         </section>
     </main>

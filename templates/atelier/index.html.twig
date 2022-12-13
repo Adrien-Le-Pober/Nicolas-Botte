@@ -16,7 +16,7 @@
             <h1 class="text-center">Les ateliers</h1>
             <div class="row d-flex flex-column flex-md-row align-items-center justify-content-md-around col-12">
                 {% for atelier in ateliers %}
-                <div class="card border-primary border-rounded bg-secondary p-4 p-md-5 col-11 col-md-8 col-lg-5 my-3 shadow">
+                <div class="card border-primary border-rounded p-4 p-md-5 col-11 col-md-8 col-lg-5 my-3 shadow">
                     {% if is_granted("ROLE_ADMIN") %}
                         <div>
                         <a href="{{ path('app_atelier_edit', {'id': atelier.id, '_fragment': 'atelier-edit'}) }}">

@@ -69,7 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private $firstname;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phone;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]

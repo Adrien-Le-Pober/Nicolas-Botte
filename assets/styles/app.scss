@@ -9,6 +9,11 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+
+body {
+    background: $lunary-white;
+}
+
 .border-rounded {
     border-radius: 45px;
 }

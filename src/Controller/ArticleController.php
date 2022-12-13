@@ -17,14 +17,14 @@ class ArticleController extends AbstractController
     #[Route('/', name: 'app_article_index', methods: ['GET'])]
     public function index(ArticleRepository $articleRepository, Request $request): Response
     {
-        //on définit le nombre d'éléments par page
+        //nombre d'éléments par page
         $limit = 10;
-        //on récupère le numero de page ou 1
+        //récupère le numero de page ou 1
         $page = (int)$request->query->get('page', 1);
 
         $articles = $articleRepository->getPaginatedArticles($page, $limit);
 
-        //on récupère le nombre total d'articles
+        //nombre total d'articles
         $total = $articleRepository->getTotalArticles();
 
         return $this->render('article/index.html.twig', [

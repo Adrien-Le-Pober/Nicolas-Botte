@@ -43,7 +43,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function getPaginatedArticles($page, $limit)
     {
         $query = $this->createQueryBuilder('a')
-            ->orderBy('a.createdAt')
+            ->orderBy('a.createdAt', 'desc')
             ->setFirstResult(($page * $limit) - $limit)
             ->setMaxResults($limit)
         ;

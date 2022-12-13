@@ -15,6 +15,6 @@
         <h1 class="text-center my-3">Modification de la TVA</h1>
         {{ include('tva/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-        <a class="btn btn-outline-primary rounded-pill mb-3" href="{{ path('app_tarif_index', {'_fragment': 'tarifs'}) }}">Retour vers l'accueil</a>
+        <a class="btn btn-outline-primary rounded-pill mb-3" href="{{ path('app_home') }}">Retour vers l'accueil</a>
     </main>
 {% endblock %}

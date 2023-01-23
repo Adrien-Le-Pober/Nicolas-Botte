@@ -26,8 +26,8 @@ class ContactController extends AbstractController
             $lastname = $data['lastname'];
             $firstname = $data['firstname'];
             $email = (new TemplatedEmail())
-                ->from('hello@example.com')
-                ->to('you@example.com')
+                ->from('nicolas-botte@nicolas-botte.com')
+                ->to('nicolas-botte@nicolas-botte.com')
                 ->subject("Nouveau message de $lastname $firstname")
                 ->htmlTemplate('emails/contact.html.twig')
                 ->context([

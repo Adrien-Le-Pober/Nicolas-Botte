@@ -144,23 +144,24 @@ ul li ul li a { transition: all 0.5s ease; }
   header .logo
   {
     font-size: 30px;
+    margin: 0;
   }
   .toggle
   {
     position: relative;
     width: 35px;
     height: 35px;
-    background: url(https://i.ibb.co/HrfVRcx/menu.png);
+    background: url("../img/menu.png");
     background-repeat: no-repeat;
-    background-size: 60px;
+    background-size: 32px;
     background-position: center;
     cursor: pointer;
   }
   .toggle.active
   {
-    background: url(https://i.ibb.co/rt3HybH/close.png);
+    background: url("../img/close.png");
     background-repeat: no-repeat;
-    background-size: 60px;
+    background-size: 32px;
     background-position: center;
     cursor: pointer;
   }
@@ -181,22 +182,24 @@ ul li ul li a { transition: all 0.5s ease; }
     justify-content: center;
     padding: 0;
     &__items {
+      width: 100%;
       flex-direction: column;
       max-height: 100vh;
+      padding: 0;
     }
     &__item {
       padding: 20px 0;
+      &:hover > ul {
+        opacity: 1;
+      }
     }
     &__link {
       font-size: 20px;
       color: rgb(238, 228, 228);
     }
-    &__dropdown {
-      width: 70vw;
-      transform: translateX(-10vw);
-    }
     &__dropdown--link {
       font-size: 20px;
+      white-space: nowrap;
       &:hover {
         font-size: 22px;
       }

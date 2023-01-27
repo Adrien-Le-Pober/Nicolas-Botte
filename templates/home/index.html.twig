@@ -52,7 +52,7 @@
             <h3 class="text-center">Participez à mes prochains ateliers</h3>
             <div class="d-flex flex-column flex-xl-row align-items-center justify-content-xl-center my-3">
             {% for atelier in lastAteliers %}
-                <div class="card border-rounded bg-lunary-white p-3 col-11 col-md-8 col-xl-4 my-3 shadow mx-2 reveal">
+                <div class="card border-rounded bg-lunary-white p-3 col-11 col-md-8 col-xl-4 my-3 shadow mx-2">
                     <a href={{ path('app_atelier_show', {'id': atelier.id, '_fragment': 'atelier-show'}) }}>
                         <img class="w-100 border-rounded shadow" src="{{ vich_uploader_asset(atelier) }}" alt="{{ atelier.title }}">
                     </a>
